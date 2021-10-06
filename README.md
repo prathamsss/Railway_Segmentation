@@ -14,5 +14,12 @@
             
             - Detectron2_Base: Notebook for traning model. Saves visualisation in /plots directory
             - model_2: Contains model file, and segmentation all segmentation outputs and results. 
-                        
+            
+            
+            
+![alt text](https://github.com/prathamsss/Railway_Segmentation/blob/master/Detectron2/model_2/output/Output_imgs/Screenshot%202021-10-07%20at%2012.28.36%20AM.png )
+
+![alt text](https://github.com/prathamsss/Railway_Segmentation/blob/master/Detectron2/model_2/output/Output_imgs/Screenshot%202021-10-07%20at%2012.28.48%20AM.png )
+
+             
 ![alt text](https://github.com/prathamsss/Railway_Segmentation/blob/master/Detectron2/model_1/Output_imgs/Screenshot%202021-10-04%20at%2010.08.02%20PM.png)
