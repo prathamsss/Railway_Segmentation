@@ -5,7 +5,6 @@ import pylab
 import numpy as np
 import os
 
-
 def Visualiser(json_path, IMG_DIR):
     example_coco = COCO(json_path)
     categories = example_coco.loadCats(example_coco.getCatIds())
