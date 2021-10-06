@@ -16,4 +16,3 @@
             - model_2: Contains model file, and segmentation all segmentation outputs and results. 
                         
 ![alt text](https://github.com/prathamsss/Railway_Segmentation/blob/master/Detectron2/model_1/Output_imgs/Screenshot%202021-10-04%20at%2010.08.02%20PM.png)
-![alt text](https://github.com/prathamsss/Railway_Segmentation/blob/master/Detectron2/model_1/Output_imgs/Screenshot%202021-10-04%20at%2010.08.02%20PM.png)
