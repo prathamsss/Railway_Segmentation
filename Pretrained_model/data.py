@@ -8,14 +8,15 @@ from PIL import Image
 
 
 class RailData(Dataset):
-    def __init__(self, images_path, masks_path, size):  # size=(512,512)
+    def __init__(self, images_path, masks_path, size=None, augmentation=None, preprocessing=None):
 
         self.images_path = images_path
         self.masks_path = masks_path
         self.n_samples = len(images_path)
         self.size = size
 
-    #         self.size = size
+        self.augmentation = augmentation
+        self.preprocessing = preprocessing
 
     def __getitem__(self, index):
         """ Reading image """
@@ -23,21 +24,35 @@ class RailData(Dataset):
         image = cv2.imread(self.images_path[index], cv2.IMREAD_COLOR)
         mask = cv2.imread(self.masks_path[index], cv2.IMREAD_GRAYSCALE)
 
-        preprocess = transforms.Compose([
-            transforms.Resize(self.size, 2),
-            transforms.ToTensor()
-        ])
+        if self.size:
+            image = cv2.resize(image, self.size)
+            mask = cv2.resize(mask, self.size)
 
-        X = Image.fromarray(image).convert('RGB')
-        X = preprocess(X)
+        if self.augmentation:
+            sample = self.augmentation(image=image, mask=mask)
+            image, mask = sample['image'], sample['mask']
 
-        trfresize = transforms.Resize(self.size, 2)
-        trftensor = transforms.ToTensor()
-        Y = Image.fromarray(mask).convert('L')
-        Y = trftensor(trfresize(Y))
-        Y = Y.type(torch.float)
+        if self.preprocessing:
+            sample = self.preprocessing(image=image, mask=mask)
 
-        return X, Y
+            image, mask = sample['image'], sample['mask'],
+
+        image = image / 255.0  ## (512, 512, 3)
+        image = np.transpose(image, (2, 0, 1))  ## (3, 512, 512)
+        image = image.astype(np.float32)
+        image = torch.from_numpy(image)
+
+        #             mask = cv2.resize(mask, self.size)
+        mask = mask / 255.0  ## (512, 512)
+        mask = np.expand_dims(mask, axis=0)  ## (1, 512, 512)
+        mask = mask.astype(np.float32)
+        mask = torch.from_numpy(mask)
+
+        #         image = np.transpose(image, (2, 0, 1))
+        #         mask = np.expand_dims(mask, axis=0)
+
+        return image, mask
 
     def __len__(self):
         return self.n_samples
+
